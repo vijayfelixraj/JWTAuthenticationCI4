@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
-use \FireBase\JWT\JWT;
+use \Firebase\JWT\JWT;
 
 class Login extends BaseController
 {
@@ -17,7 +17,7 @@ class Login extends BaseController
 
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
-
+        
         $user = $userModel->Where('email', $email)->first();
 
         if (is_null($user))
@@ -29,7 +29,7 @@ class Login extends BaseController
 
         if (!$pwd)
         {
-            return $this->response(['error' => 'Invalid, Password did not match'], 401);
+            return $this->respond(['error' => 'Invalid, Password did not match'], 401);
         }
         
         $key = getenv('JWT_SECRET');
@@ -52,6 +52,6 @@ class Login extends BaseController
             'token' => $token
         ];
 
-        return $this->response($response, 200);
+        return $this->respond($response, 200);
     }
 }
